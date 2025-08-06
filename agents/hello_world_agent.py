@@ -32,8 +32,9 @@ graph.set_finish_point("greeter")
 app = graph.compile()
 
 # Creating a image of the graph
-# from IPython.display import Image, display
-# display(Image(app.get_graph()))
+from IPython.display import Image, display
+
+display(Image(app.get_graph().draw_mermaid_png()))
 
 result = app.invoke({"userName": "DJ"})
 print(result["greetingMsg"])
