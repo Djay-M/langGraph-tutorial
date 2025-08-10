@@ -6,8 +6,10 @@ import os
 
 LLM = ChatOllama(model="llama3.1", temperature=0.8)
 
+
 class AgentState(TypedDict):
     messages: List[Union[AIMessage, HumanMessage]]
+
 
 def process_message(state: AgentState) -> AgentState:
     """Node to process the messages in the state"""
@@ -19,6 +21,7 @@ def process_message(state: AgentState) -> AgentState:
     print("\n AI: ", ai_response.content)
 
     return state
+
 
 graph = StateGraph(AgentState)
 
@@ -35,7 +38,7 @@ user_input = input("\n You: ")
 
 while user_input.lower() not in ["bye", "exit", "done", "close"]:
     conversation.append(HumanMessage(content=user_input))
-    agentResponse = agent.invoke({ "messages": conversation })
+    agentResponse = agent.invoke({"messages": conversation})
     conversation = agentResponse["messages"]
     user_input = input("\n You: ")
 
@@ -47,8 +50,7 @@ with open("./logs/conversation.txt", "w") as file:
             file.write(f"You: {message.content} \n")
         elif isinstance(message, AIMessage):
             file.write(f"AI: {message.content} \n")
-    
+
     file.write("End of conversation \n")
 
 print("conversation saved to logs file")
-
